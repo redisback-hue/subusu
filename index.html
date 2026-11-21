@@ -3,258 +3,293 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#F2F6EA">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="素不素？">
 <title>素不素？</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Figtree:wght@400;500;600;800&family=Noto+Sans:wght@500&family=Noto+Sans+SC:wght@600;700&family=Noto+Serif+SC:wght@700;900&display=swap">
 <style>
+/* Token del sistema (approvati dai revisori)
+   Colori: fondo #F2F6EA · superficie #FFFFFF · inchiostro #143D2A · secondario #3F5A4B · lime #A5D63F (solo firma e accento)
+           rosso #B42318 · giallo #F7C933 · tinte #FBE3DD #FDF1C7 #DDEFB8
+   Spazi: 4 8 12 16 24 32 48 · margine 24 · raggi 12 / 24 / 999 · niente ombre
+   Testo: Display 34 · Titolo 26 · Hanzi L 30 · Hanzi M 24 · Lead 19 · Body 17 · Meta 15 · Etichetta 13 */
 :root{
-  --ink:#141414; --ink2:#3D3D3D; --ink3:#4A4A4A; --line:#E2E2DE; --line2:#C9C9C4;
-  --bg:#FFFFFF; --soft:#F4F4F1;
-  --red:#B42318; --redT:#FDECEA; --yel:#F5C400; --yelR:#7A6200; --yelT:#FFF6CC; --grn:#1E6B34;
-  --cjk:"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+  --bg:#F2F6EA; --surf:#FFFFFF; --ink:#143D2A; --ink2:#3F5A4B; --lime:#A5D63F; --pale:#DDEFB8;
+  --red:#B42318; --redT:#FBE3DD; --yel:#F7C933; --yelT:#FDF1C7;
+  --sans:Figtree,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --serif:Fraunces,Georgia,serif;
+  --pin:"Noto Sans",Figtree,system-ui,sans-serif;
+  --cjk:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei",sans-serif;
+  --cjkserif:"Noto Serif SC","Songti SC","Noto Serif CJK SC",serif;
 }
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,var(--cjk),sans-serif;font-size:17px;
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;
   -webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
-.zh{font-family:var(--cjk)}
 [hidden]{display:none!important}
-button,input{font:inherit;color:inherit}
-button{cursor:pointer}
-:focus-visible{outline:3px solid #1A56DB;outline-offset:3px}
+h1,h2,p,ul,ol{margin:0}
+ul,ol{list-style:none;padding:0}
+button,input,select{font:inherit;color:inherit}
+button,a,label{cursor:pointer}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.zh{font-family:var(--cjk);font-weight:600}
+.zhb{font-family:var(--cjk);font-weight:700;font-size:1.05em}
+.nw{white-space:nowrap}
 
+/* struttura */
 .screen{height:100dvh;display:flex;flex-direction:column;
   padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
-.pad{padding:24px 20px 28px}
-.grow{flex:1 1 auto;min-height:0}
+.pad{padding:48px 24px 24px}
 .scroll{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.bar{padding:12px 20px 20px;border-top:2px solid var(--line);background:var(--bg)}
+.bar{padding:12px 24px 24px;background:var(--bg);display:flex;gap:12px}
+.grow{flex:1 1 auto;min-height:0}
 
-.btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:64px;
-  border-radius:16px;border:0;background:var(--ink);color:#fff;font-size:20px;font-weight:700;text-decoration:none}
-.btn-o{background:#fff;color:var(--ink);border:2px solid var(--ink)}
-.btn-danger{background:#fff;color:var(--red);border:2px solid var(--red);min-height:56px;font-size:18px;border-radius:12px}
-.link{min-height:48px;padding:0 16px;border:0;background:none;font-size:17px;font-weight:600;
-  text-decoration:underline;text-underline-offset:4px}
-.round{width:56px;height:56px;border-radius:28px;border:2px solid var(--line2);background:#fff;
-  display:flex;align-items:center;justify-content:center;padding:0}
-.scan{width:200px;height:200px;border-radius:100px;border:0;background:var(--ink);color:#fff;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font-size:24px;font-weight:700}
-.muted{color:var(--ink2)}
-.cap{margin:0;font-size:15px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--ink2)}
-h1,h2,p{margin:0}
+/* testo */
+.display{font-family:var(--serif);font-size:34px;font-weight:700;line-height:1.02;letter-spacing:-.4px}
+.title{font-family:var(--serif);font-size:26px;font-weight:700;line-height:1.1}
+.lead{font-size:19px;font-weight:500;line-height:1.35}
+.meta{font-size:15px;font-weight:500;line-height:1.3;color:var(--ink2)}
+.label{font-size:13px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ink2)}
+.sign{width:64px;height:6px;border-radius:999px;background:var(--lime);flex-shrink:0}
+
+/* pulsanti */
+.btn{display:flex;align-items:center;justify-content:center;gap:12px;height:64px;border-radius:999px;border:0;
+  background:var(--ink);color:#fff;font-size:20px;font-weight:800;text-decoration:none;flex:1 1 auto}
+.btn svg{stroke:var(--lime)}
+.btn2{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 24px;border-radius:999px;border:0;
+  background:var(--pale);color:var(--ink);font-size:17px;font-weight:800}
+.btn2.big{height:64px;font-size:20px;flex:1 1 auto}
+.back{width:64px;height:64px;flex:0 0 64px;padding:0;border-radius:999px;border:0;background:var(--pale);display:flex;align-items:center;justify-content:center}
+.ghost{min-height:48px;padding:0 24px;border:0;background:none;display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800}
+.danger{height:56px;border-radius:999px;border:2px solid var(--red);background:transparent;color:var(--red);font-size:17px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;gap:8px}
+
+/* mirino */
+.vf{position:relative}
+.vf i{position:absolute;width:32px;height:32px;border:0 solid var(--lime)}
+.vf i:nth-child(1){left:0;top:0;border-left-width:6px;border-top-width:6px;border-top-left-radius:12px}
+.vf i:nth-child(2){right:0;top:0;border-right-width:6px;border-top-width:6px;border-top-right-radius:12px}
+.vf i:nth-child(3){left:0;bottom:0;border-left-width:6px;border-bottom-width:6px;border-bottom-left-radius:12px}
+.vf i:nth-child(4){right:0;bottom:0;border-right-width:6px;border-bottom-width:6px;border-bottom-right-radius:12px}
+.vf.dark i{border-color:var(--ink)}
+.vf.inset i:nth-child(1){left:16px;top:16px}.vf.inset i:nth-child(2){right:16px;top:16px}
+.vf.inset i:nth-child(3){left:16px;bottom:16px}.vf.inset i:nth-child(4){right:16px;bottom:16px}
 
 /* home */
-.brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding-top:24px}
-.brand h1{font-family:var(--cjk);font-size:40px;font-weight:700;line-height:1.15}
-.guide{width:100%;min-height:240px;border:3px dashed #8A8A85;border-radius:16px;background:var(--soft);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center}
-.controls{display:flex;flex-direction:column;align-items:center;gap:8px}
-.controls .row{width:100%;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--cjkserif);font-size:44px;font-weight:900;line-height:1.1}
+.target{width:280px;height:184px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.target .han{font-family:var(--cjk);font-size:64px;font-weight:600;line-height:1}
+.target .pin, .pin{font-family:var(--pin)}
+.dock{width:100%;display:flex;align-items:center;justify-content:space-between}
+.side{width:84px;display:flex;flex-direction:column;align-items:center;gap:8px;border:0;background:none;padding:0;color:var(--ink)}
+.side span:first-child{width:56px;height:56px;border-radius:999px;background:var(--surf);box-shadow:inset 0 0 0 2px var(--ink);
+  display:flex;align-items:center;justify-content:center}
+.side span:last-child{font-size:13px;font-weight:800;line-height:1}
+.scan{width:152px;height:152px;border-radius:999px;border:0;background:var(--ink);color:#fff;box-shadow:0 0 0 8px var(--lime);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:20px;font-weight:800}
 
-/* loading */
-.photo{height:330px;border-radius:16px;background:#E9E9E5;border:2px solid var(--line2);overflow:hidden}
+/* attesa */
+.photo{position:relative;height:320px;border-radius:24px;background:var(--pale);overflow:hidden;flex-shrink:0}
 .photo img{width:100%;height:100%;object-fit:cover;display:block}
-.center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center}
 
-/* error */
-.tips{border-radius:14px;background:var(--soft);border:2px solid #D6D6D1;padding:18px;display:flex;flex-direction:column;gap:14px}
+/* errore */
+.steps{padding:8px 16px;border-radius:24px;background:var(--surf)}
+.steps li{display:flex;gap:16px;align-items:center;padding:12px 0;border-bottom:1px solid var(--pale);line-height:1.4}
+.steps li:last-child{border-bottom:0}
+.num{width:40px;height:40px;border-radius:999px;flex-shrink:0;background:var(--pale);display:flex;align-items:center;justify-content:center;font-weight:800}
+.mini{display:inline-block;padding:0 6px;border-radius:6px;box-shadow:inset 0 0 0 2px var(--lime)}
 
-/* result */
-.band{padding:28px 20px 22px;display:flex;gap:14px;align-items:flex-start}
+/* risultato */
+.band{padding:32px 24px;border-radius:0 0 24px 24px;display:flex;flex-direction:column;gap:12px}
 .band.r{background:var(--red);color:#fff}
 .band.y{background:var(--yel);color:var(--ink)}
-.band.g{background:var(--grn);color:#fff}
-.band svg{flex-shrink:0}
-.band .v{font-size:30px;font-weight:800;line-height:1.1}
-.band.g .v{font-size:28px}
-.band .d{font-size:18px;line-height:1.35;margin-top:6px}
-.band .d2{font-size:16px;line-height:1.35;margin-top:6px}
-.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
-.flag{gap:8px}
-.flag li{display:flex;gap:12px;padding:14px;border-radius:12px}
-.flag li.r{background:var(--redT)} .flag li.y{background:var(--yelT)}
-.ok{border-top:2px solid var(--line)}
-.ok li{display:flex;gap:12px;padding:10px 14px;border-bottom:2px solid var(--line)}
-.dot{width:26px;height:26px;margin-top:6px;border-radius:13px;flex-shrink:0;display:inline-flex;align-items:center;
-  justify-content:center;font-size:15px;font-weight:800}
-.dot.r{background:var(--red);color:#fff}
-.dot.y{background:var(--yel);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--yelR)}
-.dot.g{background:var(--grn);color:#fff}
-.ing{display:flex;flex-direction:column;gap:3px;min-width:0}
-.ing .top{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:10px}
-.ing .han{font-family:var(--cjk);font-size:30px;font-weight:700;line-height:1.2;word-break:break-all}
-.ok .ing .han{font-size:26px}
-.ing .py{font-size:15px;color:var(--ink2)}
-.ing .it{font-size:18px;font-weight:700}
-.ok .ing .it{font-size:17px;font-weight:600}
-.ing .why{font-size:16px;line-height:1.4;color:#2B2B2B}
-details{border:2px solid var(--line2);border-radius:12px}
-summary{min-height:56px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;
-  font-size:17px;font-weight:700;cursor:pointer;list-style:none}
+.band.g{background:var(--pale);color:var(--ink)}
+.band .head{display:flex;align-items:center;gap:16px}
+.band .ico{width:56px;height:56px;border-radius:999px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.band.r .ico{background:#fff} .band.y .ico,.band.g .ico{background:var(--ink)}
+.band .meta{color:inherit}
+.rows{display:flex;flex-direction:column;gap:8px}
+.row{display:flex;gap:16px;padding:16px;border-radius:24px}
+.row.r{background:var(--redT)} .row.y{background:var(--yelT)}
+.okl{padding:0 16px;border-radius:24px;background:var(--surf)}
+.okl .row{padding:12px 0;border-radius:0;border-bottom:1px solid var(--pale)}
+.okl .row:last-child{border-bottom:0}
+.dot{width:32px;height:32px;margin-top:2px;border-radius:999px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.dot.r{background:var(--red);color:#fff} .dot.y{background:var(--yel);color:var(--ink)} .dot.g{background:var(--ink);color:var(--lime)}
+.ing{display:flex;flex-direction:column;gap:4px;min-width:0}
+.ing .top{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:8px}
+.ing .han{font-family:var(--cjk);font-size:30px;font-weight:600;line-height:1.15;word-break:break-all}
+.okl .ing{gap:2px} .okl .ing .han{font-size:24px;line-height:1.2}
+.ing .it{font-size:17px;font-weight:800;line-height:1.4}
+.ing .tag{font-size:13px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
+.row.r .tag{color:var(--red)}
+.ing .why{font-size:17px;line-height:1.4}
+details{border-radius:24px;background:var(--surf)}
+summary{min-height:56px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:17px;font-weight:800;list-style:none}
 summary::-webkit-details-marker{display:none}
 details[open] summary svg{transform:rotate(180deg)}
-.raw{padding:0 16px 16px;font-family:var(--cjk);font-size:18px;line-height:1.6;white-space:pre-wrap;word-break:break-all}
+.raw{padding:0 16px 16px;font-family:var(--cjk);font-size:17px;font-weight:600;line-height:1.6;white-space:pre-wrap;word-break:break-all}
 
-/* history + settings */
-.hist{border-top:2px solid var(--line)}
-.hist li{border-bottom:2px solid var(--line)}
-.hist button{width:100%;min-height:84px;display:flex;align-items:center;gap:14px;padding:10px 0;border:0;background:none;text-align:left}
-.thumb{width:60px;height:60px;border-radius:10px;background:#E9E9E5;border:2px solid var(--line2);object-fit:cover;flex-shrink:0}
-.hmeta{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
-.hname{font-size:18px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.hverd{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600}
-.hverd .dot{width:20px;height:20px;margin:0;font-size:13px}
-.hdate{font-size:14px;color:var(--ink3)}
+/* cronologia e impostazioni */
+.hist{padding:0 16px;border-radius:24px;background:var(--surf)}
+.hist li{border-bottom:1px solid var(--pale)} .hist li:last-child{border-bottom:0}
+.hist button{width:100%;min-height:80px;display:flex;align-items:center;gap:16px;padding:12px 0;border:0;background:none;text-align:left}
+.tile{width:56px;height:56px;border-radius:12px;background:var(--pale);flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--cjkserif);font-size:26px;font-weight:700;object-fit:cover;overflow:hidden}
+.hmeta{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.hname{font-size:17px;font-weight:800;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hline{display:flex;align-items:center;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px 0 6px;border-radius:12px;white-space:nowrap;font-size:13px;font-weight:800}
+.chip.r{background:var(--redT);color:var(--red)} .chip.y{background:var(--yelT);color:var(--ink)} .chip.g{background:var(--pale);color:var(--ink)}
+.card{border-radius:24px;background:var(--surf);padding:16px;display:flex;flex-direction:column;gap:24px}
 .field{display:flex;flex-direction:column;gap:8px}
-.field label{font-size:17px;font-weight:700}
-.keyrow{display:flex;gap:8px}
-.keyrow input{flex:1;min-width:0;height:56px;border:2px solid #8A8A85;border-radius:12px;padding:0 14px;font-size:18px;background:#fff}
-.keyrow button{min-width:80px;height:56px;border-radius:12px;border:2px solid var(--ink);background:#fff;font-weight:700}
-.toggle{display:flex;align-items:center;gap:16px;padding:14px 0;border-top:2px solid var(--line);border-bottom:2px solid var(--line)}
+.field>label{font-size:17px;font-weight:800}
+.inp{height:56px;border:0;border-radius:999px;padding:0 16px;font-size:17px;background:var(--bg);color:var(--ink);min-width:0}
+select.inp{appearance:none;-webkit-appearance:none;padding-right:48px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23143D2A' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 16px center}
+.toggle{display:flex;align-items:center;gap:16px;padding-top:16px;border-top:1px solid var(--pale)}
 .toggle label{flex:1;display:flex;flex-direction:column;gap:4px}
-.switch{appearance:none;-webkit-appearance:none;margin:0;width:64px;height:36px;border-radius:18px;background:#8A8A85;position:relative;flex-shrink:0;cursor:pointer}
-.switch::after{content:"";position:absolute;top:4px;left:4px;width:28px;height:28px;border-radius:14px;background:#fff}
-.switch:checked{background:var(--ink)}
-.switch:checked::after{left:32px}
-.select{height:56px;border:2px solid #8A8A85;border-radius:12px;padding:0 44px 0 14px;font-size:18px;background:#fff;
-  appearance:none;-webkit-appearance:none;color:var(--ink);
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%23141414' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 14px center}
-.small{font-size:15px;line-height:1.4;color:var(--ink3)}
+.sw{appearance:none;-webkit-appearance:none;margin:0;width:64px;height:36px;border-radius:999px;background:var(--ink2);position:relative;flex-shrink:0}
+.sw::after{content:"";position:absolute;top:4px;left:4px;width:28px;height:28px;border-radius:999px;background:#fff}
+.sw:checked{background:var(--ink)} .sw:checked::after{left:32px;background:var(--lime)}
 </style>
 </head>
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="i-cam" viewBox="0 0 24 24"><path d="M4 8a2 2 0 0 1 2-2h2l1.5-2h5L16 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12.5" r="3.5" fill="none" stroke="currentColor" stroke-width="1.9"/></symbol>
-  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24"><g fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h2l1.5-2h5L16 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.5"/></g></symbol>
+  <symbol id="i-img" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="M20 16l-5-5-8 8"/></g></symbol>
+  <symbol id="g-r" viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/></symbol>
+  <symbol id="g-y" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8.8 8.6a3.3 3.3 0 1 1 4.6 3c-.9.4-1.4 1.1-1.4 2v.6"/><path d="M12 19v.01"/></g></symbol>
+  <symbol id="g-g" viewBox="0 0 24 24"><path d="M5.5 12.5l4.2 4.2 8.8-9.4" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
 <!-- 1. PRINCIPALE -->
 <section id="s-home" class="screen pad">
-  <div class="brand">
-    <h1 lang="zh-Hans">素不素？</h1>
-    <span class="muted" style="font-size:16px">sù bu sù · è vegetale o no?</span>
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <h1 class="logo" lang="zh-Hans">素不素？</h1>
+    <div class="sign" aria-hidden="true"></div>
+    <p class="meta pin">sù bu sù · è vegetale o no?</p>
   </div>
-  <p class="muted" style="font-size:18px;line-height:1.4;margin-top:6px">Fotografa la lista ingredienti di un prodotto cinese.</p>
-  <div class="grow center" style="padding:24px 0">
-    <div class="guide">
-      <svg aria-hidden="true" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#3D3D3D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2"/><path d="M8 9h8M8 12h8M8 15h5"/></svg>
-      <p class="muted" style="line-height:1.45">Cerca il riquadro che inizia con</p>
-      <p class="zh" lang="zh-Hans" style="font-size:34px;font-weight:700;line-height:1">配料表</p>
-      <p style="font-size:15px;color:var(--ink3)">pèiliàobiǎo · lista ingredienti</p>
+  <div class="grow" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
+    <p class="meta">Inquadra la scritta</p>
+    <div class="vf target"><i></i><i></i><i></i><i></i>
+      <p class="han" lang="zh-Hans">配料表</p>
+      <p class="meta pin">lista ingredienti · pèiliàobiǎo</p>
     </div>
   </div>
-  <p id="nokey" class="small" style="text-align:center;margin-bottom:8px" hidden>Prima inserisci la chiave API nelle impostazioni.</p>
-  <div class="controls">
-    <div class="row">
-      <button class="round" data-go="hist" aria-label="Cronologia">
-        <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>
-      </button>
-      <button class="scan" id="btn-scan"><svg aria-hidden="true" width="56" height="56"><use href="#i-cam"/></svg>Scansiona</button>
-      <button class="round" data-go="settings" aria-label="Impostazioni">
-        <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
-      </button>
+  <p id="nokey" class="meta" style="text-align:center;margin-bottom:16px" hidden>Prima inserisci la chiave API nelle impostazioni.</p>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:16px">
+    <div class="dock">
+      <button class="side" data-go="hist"><span><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg></span><span>Cronologia</span></button>
+      <button class="scan" id="btn-scan"><svg aria-hidden="true" width="40" height="40" stroke="#A5D63F"><use href="#i-cam"/></svg>Scansiona</button>
+      <button class="side" data-go="settings"><span><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.5"/><circle cx="10" cy="17" r="2.5"/></svg></span><span>Impostazioni</span></button>
     </div>
-    <button class="link" id="btn-gallery">Scegli dalla galleria</button>
+    <button class="btn2" id="btn-gallery"><svg aria-hidden="true" width="20" height="20"><use href="#i-img"/></svg>Scegli dalla galleria</button>
   </div>
   <input type="file" id="f-cam" accept="image/*" capture="environment" hidden>
   <input type="file" id="f-gal" accept="image/*" hidden>
 </section>
 
 <!-- ATTESA -->
-<section id="s-wait" class="screen pad" style="gap:28px;padding-top:48px" hidden>
-  <div class="photo"><img id="wait-img" alt="Foto dell'etichetta"></div>
-  <div class="grow center" role="status">
-    <svg aria-hidden="true" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/><path d="M8 9h6M8 12h4"/></svg>
-    <p style="font-size:26px;font-weight:700">Sto leggendo l'etichetta…</p>
-    <p class="muted" style="line-height:1.45;max-width:300px">Riconosco i caratteri e controllo ogni ingrediente. Di solito bastano pochi secondi.</p>
+<section id="s-wait" class="screen pad" style="gap:32px" hidden>
+  <div class="photo"><img id="wait-img" alt="La foto che hai scattato"><div class="vf inset dark" style="position:absolute;inset:0" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>
+  <div class="grow" role="status" style="display:flex;flex-direction:column;gap:12px">
+    <h1 class="display">Sto leggendo l'etichetta…</h1>
+    <div class="sign" aria-hidden="true" style="margin-top:4px"></div>
+    <p class="lead" style="color:var(--ink2);margin-top:4px">Traduco ogni ingrediente. Ci vogliono 10–20 secondi.</p>
   </div>
-  <button class="btn btn-o" id="btn-cancel">Annulla</button>
+  <button class="btn2 big" id="btn-cancel" style="flex:0 0 auto">Annulla</button>
 </section>
 
 <!-- ERRORE -->
-<section id="s-err" class="screen pad" style="gap:24px;padding-top:56px" hidden>
-  <div role="alert" style="display:flex;flex-direction:column;gap:14px">
-    <svg aria-hidden="true" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/><path d="M8.5 8.5l5 5M13.5 8.5l-5 5"/></svg>
-    <h1 id="err-title" style="font-size:30px;font-weight:800;line-height:1.15"></h1>
-    <p id="err-msg" class="muted" style="font-size:18px;line-height:1.45"></p>
+<section id="s-err" class="screen pad" style="gap:24px" hidden>
+  <div role="alert" style="display:flex;flex-direction:column;gap:12px">
+    <h1 class="display" id="err-title"></h1>
+    <div class="sign" aria-hidden="true" style="margin-top:4px"></div>
+    <p class="lead" id="err-msg" style="color:var(--ink2);margin-top:4px"></p>
   </div>
-  <div class="tips" id="err-tips">
-    <p class="cap">Per riprovare</p>
-    <div style="display:flex;gap:12px;align-items:baseline">
-      <span class="zh" lang="zh-Hans" style="font-size:26px;font-weight:700;min-width:76px">配料</span>
-      <span style="line-height:1.4">Cerca questa parola: apre la lista. Può essere anche 配料表.</span>
-    </div>
-    <p style="line-height:1.4">Avvicinati finché il riquadro riempie la foto.</p>
-    <p style="line-height:1.4">Inclina la confezione per togliere i riflessi della plastica.</p>
-  </div>
+  <ol class="steps" id="err-tips">
+    <li><span class="num" aria-hidden="true">1</span><span>Cerca la scritta <span class="mini"><span class="zhb" lang="zh-Hans">配料表</span></span>: è l'inizio della lista.</span></li>
+    <li><span class="num" aria-hidden="true">2</span><span>Avvicinati finché il riquadro riempie la foto.</span></li>
+    <li><span class="num" aria-hidden="true">3</span><span>Inclina la confezione per togliere i riflessi.</span></li>
+  </ol>
   <div class="grow"></div>
-  <div class="controls">
-    <button class="btn" id="err-retry" style="min-height:72px;font-size:22px"><svg aria-hidden="true" width="28" height="28"><use href="#i-cam"/></svg><span id="err-retry-l">Riprova</span></button>
-    <button class="link" id="err-gallery">Scegli dalla galleria</button>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+    <button class="btn" id="err-retry" style="width:100%;flex:0 0 auto"><svg aria-hidden="true" width="28" height="28"><use href="#i-cam"/></svg><span id="err-retry-l">Riprova</span></button>
+    <button class="ghost" id="err-gallery"><svg aria-hidden="true" width="20" height="20"><use href="#i-img"/></svg>Scegli dalla galleria</button>
   </div>
 </section>
 
 <!-- 2. RISULTATO -->
 <section id="s-res" class="screen" hidden>
   <div class="scroll" id="res-scroll">
-    <div class="band" id="res-band" role="status"></div>
-    <p class="small" id="res-prod" style="padding:14px 20px 0"></p>
-    <div style="padding:14px 20px 24px;display:flex;flex-direction:column;gap:10px">
-      <h2 class="cap" id="h-flag" style="margin-top:4px">Da controllare</h2>
-      <ul class="list flag" id="res-flag"></ul>
-      <h2 class="cap" id="h-ok" style="margin-top:14px">Altri ingredienti</h2>
-      <ul class="list ok" id="res-ok"></ul>
-      <details style="margin-top:14px">
-        <summary>Testo letto <svg aria-hidden="true" width="22" height="22"><use href="#i-chev"/></svg></summary>
+    <header class="band" id="res-band"></header>
+    <div style="padding:24px 24px 32px;display:flex;flex-direction:column;gap:8px">
+      <h2 class="label" id="h-flag" style="margin-bottom:4px">Da controllare</h2>
+      <ul class="rows" id="res-flag"></ul>
+      <h2 class="label" id="h-ok" style="margin:16px 0 4px">Altri ingredienti</h2>
+      <ul class="okl" id="res-ok"></ul>
+      <details style="margin-top:16px">
+        <summary>Testo letto <svg aria-hidden="true" width="20" height="20"><use href="#i-chev"/></svg></summary>
         <p class="raw" lang="zh-Hans" id="res-raw"></p>
       </details>
     </div>
   </div>
-  <div class="bar"><button class="btn" id="btn-new"><svg aria-hidden="true" width="26" height="26"><use href="#i-cam"/></svg>Nuova scansione</button></div>
+  <div class="bar">
+    <button class="back" id="btn-back" aria-label="Indietro"><svg aria-hidden="true" width="24" height="24"><use href="#i-back"/></svg></button>
+    <button class="btn" id="btn-new"><svg aria-hidden="true" width="28" height="28"><use href="#i-cam"/></svg>Nuova scansione</button>
+  </div>
 </section>
 
 <!-- 3. CRONOLOGIA E IMPOSTAZIONI -->
 <section id="s-hist" class="screen" hidden>
-  <div class="scroll" id="hist-scroll" style="padding:40px 20px 24px;display:flex;flex-direction:column;gap:14px">
-    <h1 style="font-size:30px;font-weight:800;margin-bottom:4px">Cronologia</h1>
-    <p class="small" id="hist-empty">Nessuna scansione per ora.</p>
-    <ul class="list hist" id="hist-list"></ul>
-    <h2 id="settings" style="font-size:24px;font-weight:800;margin:24px 0 4px">Impostazioni</h2>
-    <div class="field">
-      <label for="apikey">Chiave API</label>
-      <div class="keyrow">
-        <input id="apikey" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="sk-ant-…">
-        <button type="button" id="btn-show" aria-controls="apikey">Mostra</button>
+  <div class="scroll" id="hist-scroll" style="padding:48px 24px 24px;display:flex;flex-direction:column">
+    <h1 class="display">Cronologia</h1>
+    <div class="sign" aria-hidden="true" style="margin:12px 0 24px"></div>
+    <p class="meta" id="hist-empty">Nessuna scansione per ora. Le etichette che leggi compariranno qui.</p>
+    <ul class="hist" id="hist-list"></ul>
+    <h2 class="title" id="settings" style="margin-top:48px">Impostazioni</h2>
+    <div class="sign" aria-hidden="true" style="margin:12px 0 24px"></div>
+    <div class="card">
+      <div class="field">
+        <label for="apikey">Chiave API</label>
+        <div style="display:flex;gap:8px">
+          <input class="inp" id="apikey" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="sk-ant-…" style="flex:1">
+          <button class="btn2" type="button" id="btn-show" aria-controls="apikey" aria-pressed="false" style="height:56px;padding:0 16px">Mostra</button>
+        </div>
+        <p class="meta">Resta salvata solo su questo telefono. La foto viene inviata ad Anthropic per la lettura.</p>
       </div>
-      <p class="small">Resta salvata solo su questo telefono. La foto viene inviata ad Anthropic per la lettura.</p>
+      <div class="field">
+        <label for="model">Modello</label>
+        <select class="inp" id="model">
+          <option value="claude-opus-5-5">Opus 5.5 · il più preciso</option>
+          <option value="claude-sonnet-5-5">Sonnet 5.5 · più rapido, costa meno</option>
+          <option value="claude-haiku-5-5">Haiku 5.5 · il più rapido ed economico</option>
+        </select>
+        <p class="meta">Vale dalla prossima scansione.</p>
+      </div>
+      <div class="toggle">
+        <label for="strict">
+          <span style="font-weight:800">Modalità rigorosa</span>
+          <span class="meta">Segna come incerto anche lo zucchero bianco <span class="zh" lang="zh-Hans">白砂糖</span>, che può essere raffinato con carbone d'ossa.</span>
+        </label>
+        <input id="strict" type="checkbox" role="switch" class="sw">
+      </div>
     </div>
-    <div class="field">
-      <label for="model">Modello</label>
-      <select id="model" class="select">
-        <option value="claude-opus-5-5">Opus 5.5 · il più preciso</option>
-        <option value="claude-sonnet-5-5">Sonnet 5.5 · più rapido, costa meno</option>
-        <option value="claude-haiku-5-5">Haiku 5.5 · il più rapido ed economico</option>
-      </select>
-      <p class="small">Il modello che legge l'etichetta. Vale dalla prossima scansione.</p>
-    </div>
-    <div class="toggle">
-      <label for="strict">
-        <span style="font-weight:700">Modalità rigorosa</span>
-        <span class="small">Segna come incerto anche lo zucchero bianco (白砂糖), che può essere raffinato con carbone d'ossa.</span>
-      </label>
-      <input id="strict" type="checkbox" class="switch">
-    </div>
-    <button class="btn btn-danger" id="btn-clear" style="margin-top:8px">
-      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>
+    <button class="danger" id="btn-clear" style="margin-top:24px">
+      <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>
       Cancella cronologia
     </button>
   </div>
-  <div class="bar"><button class="btn" data-go="home"><svg aria-hidden="true" width="26" height="26"><use href="#i-cam"/></svg>Torna alla scansione</button></div>
+  <div class="bar"><button class="btn" data-go="home"><svg aria-hidden="true" width="28" height="28"><use href="#i-cam"/></svg>Torna alla scansione</button></div>
 </section>
 
 <script>
@@ -499,67 +534,76 @@ function showError(title, msg, tips, action) {
 }
 
 /* ---------- Risultato ---------- */
-const GLYPH = { r: "×", y: "?", g: "✓" };
 const LABEL = { r: "animale", y: "incerto" };
-const ICONS = {
-  r: '<circle cx="12" cy="12" r="9.5"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7"/>',
-  y: '<path d="M12 3.5l9.5 16.5h-19z"/><path d="M12 10v4.5M12 17.5v.01"/>',
-  g: '<circle cx="12" cy="12" r="9.5"/><path d="M7.5 12.5l3 3 6-6.5"/>'
-};
-function zhSpan(t) { const s = el("span", "zh", t); s.lang = "zh-Hans"; s.style.fontWeight = "700"; return s; }
+const ICON_STROKE = { r: "#B42318", y: "#F7C933", g: "#A5D63F" };
+let resFrom = "home";
 
-function renderResult(r) {
+function glyph(t, size, color) {
+  const ns = "http://www.w3.org/2000/svg";
+  const s = document.createElementNS(ns, "svg");
+  s.setAttribute("width", size); s.setAttribute("height", size); s.setAttribute("aria-hidden", "true");
+  if (color) s.style.color = color;
+  const u = document.createElementNS(ns, "use"); u.setAttribute("href", "#g-" + t); s.append(u);
+  return s;
+}
+function zhSpan(t, cls) { const s = el("span", cls || "zhb", t); s.lang = "zh-Hans"; return s; }
+// "乳粉 – latte in polvere", tenuto su una sola riga
+function pair(zh, it) { const s = el("span", "nw"); s.append(zhSpan(zh), " – " + it); return s; }
+
+function renderResult(r, from) {
+  resFrom = from || "home";
   const band = $("res-band"); band.className = "band " + r.verdict; band.textContent = "";
-  band.insertAdjacentHTML("afterbegin", `<svg aria-hidden="true" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${ICONS[r.verdict]}</svg>`);
-  const box = el("div");
-  const reds = r.items.filter(i => i.t === "r"), yels = r.items.filter(i => i.t === "y");
-  if (r.verdict === "r") {
-    box.append(el("p", "v", "Non vegano"));
-    const d = el("p", "d"); d.append("Contiene ", zhSpan(reds[0].zh), " – " + reds[0].it.toLowerCase()); box.append(d);
-    if (reds.length > 1) {
-      const d2 = el("p", "d2"); d2.append("e anche ");
-      reds.slice(1, 3).forEach((x, k) => { if (k) d2.append(", "); d2.append(zhSpan(x.zh), " – " + x.it.toLowerCase()); });
-      if (reds.length > 3) d2.append(" e altri " + (reds.length - 3));
-      box.append(d2);
-    }
-  } else if (r.verdict === "y") {
-    box.append(el("p", "v", "Incerto"));
-    const d = el("p", "d"); d.append(zhSpan(yels[0].zh), " – " + yels[0].why); box.append(d);
-    box.append(el("p", "d2", yels.length > 1 ? `Altri ${yels.length - 1} ingredienti da controllare. Nessuno sicuramente animale.` : "Nessun ingrediente sicuramente animale."));
-  } else {
-    box.append(el("p", "v", "Nessun ingrediente animale rilevato"));
-    box.append(el("p", "d2", (r.strict ? "Controllato in modalità rigorosa. " : "") + "Le tracce da contaminazione non sono valutate."));
-  }
-  band.append(box);
-
-  const prod = $("res-prod"); prod.textContent = "";
+  const head = el("div", "head");
+  const ico = el("span", "ico"); ico.setAttribute("aria-hidden", "true"); ico.append(glyph(r.verdict, 32, ICON_STROKE[r.verdict]));
+  const prod = el("span", "meta");
   if (r.nameIt) prod.append(r.nameIt + " ");
-  if (r.nameZh) { const z = el("span", "zh", r.nameZh); z.lang = "zh-Hans"; prod.append(z); }
-  prod.append((r.nameIt || r.nameZh ? " · " : "") + r.items.length + " ingredienti letti");
+  if (r.nameZh) prod.append(zhSpan(r.nameZh, "zh"));
+  if (!r.nameIt && !r.nameZh) prod.append(r.items.length + " ingredienti letti");
+  head.append(ico, prod);
+
+  const reds = r.items.filter(i => i.t === "r"), yels = r.items.filter(i => i.t === "y");
+  const h1 = el("h1", "display"), lead = el("p", "lead");
+  if (r.verdict === "r") {
+    h1.textContent = "Non vegano";
+    lead.append("Contiene ");
+    reds.slice(0, 3).forEach((x, k) => { if (k) lead.append(", "); lead.append(pair(x.zh, x.it.toLowerCase())); });
+    lead.append(reds.length > 3 ? " e altri " + (reds.length - 3) + "." : ".");
+  } else if (r.verdict === "y") {
+    h1.textContent = "Incerto";
+    const y = yels[0];
+    lead.append(pair(y.zh, y.it.toLowerCase()), ": " + y.why.charAt(0).toLowerCase() + y.why.slice(1));
+    if (yels.length === 2) lead.append(" C'è un altro ingrediente da controllare.");
+    else if (yels.length > 2) lead.append(" Altri " + (yels.length - 1) + " ingredienti da controllare.");
+  } else {
+    h1.textContent = "Nessun ingrediente animale";
+    lead.textContent = (r.strict ? "Modalità rigorosa · " : "") + "tracce non valutate.";
+    lead.textContent = lead.textContent.charAt(0).toUpperCase() + lead.textContent.slice(1);
+  }
+  band.append(head, h1, lead);
 
   const flag = $("res-flag"), ok = $("res-ok"); flag.textContent = ""; ok.textContent = "";
   for (const i of r.items) {
-    const li = el("li", i.t);
-    const dot = el("span", "dot " + i.t, GLYPH[i.t]); dot.setAttribute("aria-hidden", "true");
+    const li = el("li", "row " + i.t);
+    const dot = el("span", "dot " + i.t); dot.setAttribute("aria-hidden", "true"); dot.append(glyph(i.t, 16));
     const ing = el("div", "ing"), top = el("div", "top");
-    const han = el("span", "han", i.zh); han.lang = "zh-Hans";
-    top.append(han, el("span", "py", i.py)); ing.append(top);
+    top.append(zhSpan(i.zh, "han"), el("span", "meta pin", i.py)); ing.append(top);
     const it = el("span", "it", i.it);
-    if (i.t !== "g") { const lab = el("span", null, " · " + LABEL[i.t]); lab.style.cssText = "font-weight:600;font-size:15px"; it.append(lab); }
+    if (i.t !== "g") it.append(" ", el("span", "tag", "· " + LABEL[i.t]));
     ing.append(it);
     if (i.why) ing.append(el("span", "why", i.why));
     li.append(dot, ing);
     (i.t === "g" ? ok : flag).append(li);
   }
-  const hasFlag = flag.children.length > 0;
-  $("h-flag").hidden = !hasFlag; flag.hidden = !hasFlag;
-  $("h-ok").hidden = !ok.children.length; ok.hidden = !ok.children.length;
+  const hasFlag = flag.children.length > 0, hasOk = ok.children.length > 0;
+  $("h-flag").hidden = flag.hidden = !hasFlag;
+  $("h-ok").hidden = ok.hidden = !hasOk;
   $("h-ok").textContent = hasFlag ? "Altri ingredienti" : "Ingredienti";
   $("res-raw").textContent = r.raw || "—";
   document.querySelector("#s-res details").open = false;
   show("res");
   $("res-scroll").scrollTop = 0;
 }
+$("btn-back").onclick = () => go(resFrom);
 
 /* ---------- Cronologia ---------- */
 function saveHistory(r) {
@@ -575,40 +619,38 @@ function fmtDate(ts) {
   if (diff === 1) return "Ieri, " + hm;
   return d.toLocaleDateString("it-IT", { day: "numeric", month: "short", year: d.getFullYear() === now.getFullYear() ? undefined : "numeric" });
 }
-function verdictText(r) {
-  const f = r.items.find(i => i.t === r.verdict);
-  if (r.verdict === "r") return "Non vegano · " + f.zh + " " + f.it.toLowerCase();
-  if (r.verdict === "y") return "Incerto · " + f.it.toLowerCase();
-  return "Nessun ingrediente animale";
-}
+const CHIP = { r: "Non vegano", y: "Incerto", g: "Niente di animale" };
 function renderHistory() {
   const h = store.hist, ul = $("hist-list"); ul.textContent = "";
   $("hist-empty").hidden = h.length > 0; ul.hidden = !h.length; $("btn-clear").hidden = !h.length;
   for (const r of h) {
-    const li = el("li"), b = el("button");
-    b.type = "button";
-    const img = el("img", "thumb"); img.alt = ""; img.src = r.thumb || "";
-    const meta = el("div", "hmeta");
+    const li = el("li"), b = el("button"); b.type = "button";
+    let tile;
+    if (r.thumb) { tile = el("img", "tile"); tile.alt = ""; tile.src = r.thumb; }
+    else { tile = el("span", "tile", (r.nameZh || (r.items[0] && r.items[0].zh) || "?").charAt(0)); tile.lang = "zh-Hans"; tile.setAttribute("aria-hidden", "true"); }
+    const meta = el("span", "hmeta");
     const name = el("span", "hname", r.nameIt || "Prodotto senza nome");
-    if (r.nameZh) { const z = el("span", "zh", " " + r.nameZh); z.style.cssText = "font-weight:500;color:#3D3D3D"; name.append(z); }
-    const v = el("span", "hverd");
-    const dot = el("span", "dot " + r.verdict, GLYPH[r.verdict]); dot.setAttribute("aria-hidden", "true");
-    v.append(dot, verdictText(r));
-    meta.append(name, v, el("span", "hdate", fmtDate(r.date)));
-    b.append(img, meta);
-    b.insertAdjacentHTML("beforeend", '<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4A4A4A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>');
-    b.onclick = () => renderResult(r);
+    if (r.nameZh) { name.append(" "); const z = zhSpan(r.nameZh, "zh"); z.style.cssText = "font-size:15px;color:var(--ink2)"; name.append(z); }
+    const line = el("span", "hline");
+    const chip = el("span", "chip " + r.verdict); chip.append(glyph(r.verdict, 16), CHIP[r.verdict]);
+    line.append(chip, el("span", "meta nw", fmtDate(r.date)));
+    meta.append(name, line);
+    const nx = glyph("x", 20); nx.querySelector("use").setAttribute("href", "#i-next");
+    b.append(tile, meta, nx);
+    b.onclick = () => renderResult(r, "hist");
     li.append(b); ul.append(li);
   }
 }
-$("btn-clear").onclick = () => { if (confirm("Cancellare tutta la cronologia?")) { store.hist = []; renderHistory(); } };
+$("btn-clear").onclick = () => { if (confirm("Cancellare tutte le scansioni?")) { store.hist = []; renderHistory(); } };
 
 /* ---------- Impostazioni ---------- */
 $("apikey").value = store.key;
 $("apikey").addEventListener("input", e => { store.key = e.target.value.trim(); });
 $("btn-show").onclick = () => {
   const i = $("apikey"), vis = i.type === "password";
-  i.type = vis ? "text" : "password"; $("btn-show").textContent = vis ? "Nascondi" : "Mostra";
+  i.type = vis ? "text" : "password";
+  $("btn-show").textContent = vis ? "Nascondi" : "Mostra";
+  $("btn-show").setAttribute("aria-pressed", String(vis));
 };
 $("model").value = store.model;
 $("model").onchange = e => { store.model = e.target.value; };
