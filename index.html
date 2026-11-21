@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="素不素？">
+<title>素不素？</title>
+<style>
+:root{
+  --ink:#141414; --ink2:#3D3D3D; --ink3:#4A4A4A; --line:#E2E2DE; --line2:#C9C9C4;
+  --bg:#FFFFFF; --soft:#F4F4F1;
+  --red:#B42318; --redT:#FDECEA; --yel:#F5C400; --yelR:#7A6200; --yelT:#FFF6CC; --grn:#1E6B34;
+  --cjk:"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,var(--cjk),sans-serif;font-size:17px;
+  -webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+.zh{font-family:var(--cjk)}
+[hidden]{display:none!important}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid #1A56DB;outline-offset:3px}
+
+.screen{height:100dvh;display:flex;flex-direction:column;
+  padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+.pad{padding:24px 20px 28px}
+.grow{flex:1 1 auto;min-height:0}
+.scroll{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.bar{padding:12px 20px 20px;border-top:2px solid var(--line);background:var(--bg)}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:64px;
+  border-radius:16px;border:0;background:var(--ink);color:#fff;font-size:20px;font-weight:700;text-decoration:none}
+.btn-o{background:#fff;color:var(--ink);border:2px solid var(--ink)}
+.btn-danger{background:#fff;color:var(--red);border:2px solid var(--red);min-height:56px;font-size:18px;border-radius:12px}
+.link{min-height:48px;padding:0 16px;border:0;background:none;font-size:17px;font-weight:600;
+  text-decoration:underline;text-underline-offset:4px}
+.round{width:56px;height:56px;border-radius:28px;border:2px solid var(--line2);background:#fff;
+  display:flex;align-items:center;justify-content:center;padding:0}
+.scan{width:200px;height:200px;border-radius:100px;border:0;background:var(--ink);color:#fff;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font-size:24px;font-weight:700}
+.muted{color:var(--ink2)}
+.cap{margin:0;font-size:15px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--ink2)}
+h1,h2,p{margin:0}
+
+/* home */
+.brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding-top:24px}
+.brand h1{font-family:var(--cjk);font-size:40px;font-weight:700;line-height:1.15}
+.guide{width:100%;min-height:240px;border:3px dashed #8A8A85;border-radius:16px;background:var(--soft);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center}
+.controls{display:flex;flex-direction:column;align-items:center;gap:8px}
+.controls .row{width:100%;display:flex;align-items:center;justify-content:space-between}
+
+/* loading */
+.photo{height:330px;border-radius:16px;background:#E9E9E5;border:2px solid var(--line2);overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center}
+
+/* error */
+.tips{border-radius:14px;background:var(--soft);border:2px solid #D6D6D1;padding:18px;display:flex;flex-direction:column;gap:14px}
+
+/* result */
+.band{padding:28px 20px 22px;display:flex;gap:14px;align-items:flex-start}
+.band.r{background:var(--red);color:#fff}
+.band.y{background:var(--yel);color:var(--ink)}
+.band.g{background:var(--grn);color:#fff}
+.band svg{flex-shrink:0}
+.band .v{font-size:30px;font-weight:800;line-height:1.1}
+.band.g .v{font-size:28px}
+.band .d{font-size:18px;line-height:1.35;margin-top:6px}
+.band .d2{font-size:16px;line-height:1.35;margin-top:6px}
+.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.flag{gap:8px}
+.flag li{display:flex;gap:12px;padding:14px;border-radius:12px}
+.flag li.r{background:var(--redT)} .flag li.y{background:var(--yelT)}
+.ok{border-top:2px solid var(--line)}
+.ok li{display:flex;gap:12px;padding:10px 14px;border-bottom:2px solid var(--line)}
+.dot{width:26px;height:26px;margin-top:6px;border-radius:13px;flex-shrink:0;display:inline-flex;align-items:center;
+  justify-content:center;font-size:15px;font-weight:800}
+.dot.r{background:var(--red);color:#fff}
+.dot.y{background:var(--yel);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--yelR)}
+.dot.g{background:var(--grn);color:#fff}
+.ing{display:flex;flex-direction:column;gap:3px;min-width:0}
+.ing .top{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:10px}
+.ing .han{font-family:var(--cjk);font-size:30px;font-weight:700;line-height:1.2;word-break:break-all}
+.ok .ing .han{font-size:26px}
+.ing .py{font-size:15px;color:var(--ink2)}
+.ing .it{font-size:18px;font-weight:700}
+.ok .ing .it{font-size:17px;font-weight:600}
+.ing .why{font-size:16px;line-height:1.4;color:#2B2B2B}
+details{border:2px solid var(--line2);border-radius:12px}
+summary{min-height:56px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;
+  font-size:17px;font-weight:700;cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+details[open] summary svg{transform:rotate(180deg)}
+.raw{padding:0 16px 16px;font-family:var(--cjk);font-size:18px;line-height:1.6;white-space:pre-wrap;word-break:break-all}
+
+/* history + settings */
+.hist{border-top:2px solid var(--line)}
+.hist li{border-bottom:2px solid var(--line)}
+.hist button{width:100%;min-height:84px;display:flex;align-items:center;gap:14px;padding:10px 0;border:0;background:none;text-align:left}
+.thumb{width:60px;height:60px;border-radius:10px;background:#E9E9E5;border:2px solid var(--line2);object-fit:cover;flex-shrink:0}
+.hmeta{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.hname{font-size:18px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hverd{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600}
+.hverd .dot{width:20px;height:20px;margin:0;font-size:13px}
+.hdate{font-size:14px;color:var(--ink3)}
+.field{display:flex;flex-direction:column;gap:8px}
+.field label{font-size:17px;font-weight:700}
+.keyrow{display:flex;gap:8px}
+.keyrow input{flex:1;min-width:0;height:56px;border:2px solid #8A8A85;border-radius:12px;padding:0 14px;font-size:18px;background:#fff}
+.keyrow button{min-width:80px;height:56px;border-radius:12px;border:2px solid var(--ink);background:#fff;font-weight:700}
+.toggle{display:flex;align-items:center;gap:16px;padding:14px 0;border-top:2px solid var(--line);border-bottom:2px solid var(--line)}
+.toggle label{flex:1;display:flex;flex-direction:column;gap:4px}
+.switch{appearance:none;-webkit-appearance:none;margin:0;width:64px;height:36px;border-radius:18px;background:#8A8A85;position:relative;flex-shrink:0;cursor:pointer}
+.switch::after{content:"";position:absolute;top:4px;left:4px;width:28px;height:28px;border-radius:14px;background:#fff}
+.switch:checked{background:var(--ink)}
+.switch:checked::after{left:32px}
+.small{font-size:15px;line-height:1.4;color:var(--ink3)}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-cam" viewBox="0 0 24 24"><path d="M4 8a2 2 0 0 1 2-2h2l1.5-2h5L16 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12.5" r="3.5" fill="none" stroke="currentColor" stroke-width="1.9"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<!-- 1. PRINCIPALE -->
+<section id="s-home" class="screen pad">
+  <div class="brand">
+    <h1 lang="zh-Hans">素不素？</h1>
+    <span class="muted" style="font-size:16px">sù bu sù · è vegetale o no?</span>
+  </div>
+  <p class="muted" style="font-size:18px;line-height:1.4;margin-top:6px">Fotografa la lista ingredienti di un prodotto cinese.</p>
+  <div class="grow center" style="padding:24px 0">
+    <div class="guide">
+      <svg aria-hidden="true" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#3D3D3D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2"/><path d="M8 9h8M8 12h8M8 15h5"/></svg>
+      <p class="muted" style="line-height:1.45">Cerca il riquadro che inizia con</p>
+      <p class="zh" lang="zh-Hans" style="font-size:34px;font-weight:700;line-height:1">配料表</p>
+      <p style="font-size:15px;color:var(--ink3)">pèiliàobiǎo · lista ingredienti</p>
+    </div>
+  </div>
+  <p id="nokey" class="small" style="text-align:center;margin-bottom:8px" hidden>Prima inserisci la chiave API nelle impostazioni.</p>
+  <div class="controls">
+    <div class="row">
+      <button class="round" data-go="hist" aria-label="Cronologia">
+        <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>
+      </button>
+      <button class="scan" id="btn-scan"><svg aria-hidden="true" width="56" height="56"><use href="#i-cam"/></svg>Scansiona</button>
+      <button class="round" data-go="settings" aria-label="Impostazioni">
+        <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+      </button>
+    </div>
+    <button class="link" id="btn-gallery">Scegli dalla galleria</button>
+  </div>
+  <input type="file" id="f-cam" accept="image/*" capture="environment" hidden>
+  <input type="file" id="f-gal" accept="image/*" hidden>
+</section>
+
+<!-- ATTESA -->
+<section id="s-wait" class="screen pad" style="gap:28px;padding-top:48px" hidden>
+  <div class="photo"><img id="wait-img" alt="Foto dell'etichetta"></div>
+  <div class="grow center" role="status">
+    <svg aria-hidden="true" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/><path d="M8 9h6M8 12h4"/></svg>
+    <p style="font-size:26px;font-weight:700">Sto leggendo l'etichetta…</p>
+    <p class="muted" style="line-height:1.45;max-width:300px">Riconosco i caratteri e controllo ogni ingrediente. Di solito bastano pochi secondi.</p>
+  </div>
+  <button class="btn btn-o" id="btn-cancel">Annulla</button>
+</section>
+
+<!-- ERRORE -->
+<section id="s-err" class="screen pad" style="gap:24px;padding-top:56px" hidden>
+  <div role="alert" style="display:flex;flex-direction:column;gap:14px">
+    <svg aria-hidden="true" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/><path d="M8.5 8.5l5 5M13.5 8.5l-5 5"/></svg>
+    <h1 id="err-title" style="font-size:30px;font-weight:800;line-height:1.15"></h1>
+    <p id="err-msg" class="muted" style="font-size:18px;line-height:1.45"></p>
+  </div>
+  <div class="tips" id="err-tips">
+    <p class="cap">Per riprovare</p>
+    <div style="display:flex;gap:12px;align-items:baseline">
+      <span class="zh" lang="zh-Hans" style="font-size:26px;font-weight:700;min-width:76px">配料</span>
+      <span style="line-height:1.4">Cerca questa parola: apre la lista. Può essere anche 配料表.</span>
+    </div>
+    <p style="line-height:1.4">Avvicinati finché il riquadro riempie la foto.</p>
+    <p style="line-height:1.4">Inclina la confezione per togliere i riflessi della plastica.</p>
+  </div>
+  <div class="grow"></div>
+  <div class="controls">
+    <button class="btn" id="err-retry" style="min-height:72px;font-size:22px"><svg aria-hidden="true" width="28" height="28"><use href="#i-cam"/></svg><span id="err-retry-l">Riprova</span></button>
+    <button class="link" id="err-gallery">Scegli dalla galleria</button>
+  </div>
+</section>
+
+<!-- 2. RISULTATO -->
+<section id="s-res" class="screen" hidden>
+  <div class="scroll" id="res-scroll">
+    <div class="band" id="res-band" role="status"></div>
+    <p class="small" id="res-prod" style="padding:14px 20px 0"></p>
+    <div style="padding:14px 20px 24px;display:flex;flex-direction:column;gap:10px">
+      <h2 class="cap" id="h-flag" style="margin-top:4px">Da controllare</h2>
+      <ul class="list flag" id="res-flag"></ul>
+      <h2 class="cap" id="h-ok" style="margin-top:14px">Altri ingredienti</h2>
+      <ul class="list ok" id="res-ok"></ul>
+      <details style="margin-top:14px">
+        <summary>Testo letto <svg aria-hidden="true" width="22" height="22"><use href="#i-chev"/></svg></summary>
+        <p class="raw" lang="zh-Hans" id="res-raw"></p>
+      </details>
+    </div>
+  </div>
+  <div class="bar"><button class="btn" id="btn-new"><svg aria-hidden="true" width="26" height="26"><use href="#i-cam"/></svg>Nuova scansione</button></div>
+</section>
+
+<!-- 3. CRONOLOGIA E IMPOSTAZIONI -->
+<section id="s-hist" class="screen" hidden>
+  <div class="scroll" id="hist-scroll" style="padding:40px 20px 24px;display:flex;flex-direction:column;gap:14px">
+    <h1 style="font-size:30px;font-weight:800;margin-bottom:4px">Cronologia</h1>
+    <p class="small" id="hist-empty">Nessuna scansione per ora.</p>
+    <ul class="list hist" id="hist-list"></ul>
+    <h2 id="settings" style="font-size:24px;font-weight:800;margin:24px 0 4px">Impostazioni</h2>
+    <div class="field">
+      <label for="apikey">Chiave API</label>
+      <div class="keyrow">
+        <input id="apikey" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="sk-ant-…">
+        <button type="button" id="btn-show" aria-controls="apikey">Mostra</button>
+      </div>
+      <p class="small">Resta salvata solo su questo telefono. La foto viene inviata ad Anthropic per la lettura.</p>
+    </div>
+    <div class="toggle">
+      <label for="strict">
+        <span style="font-weight:700">Modalità rigorosa</span>
+        <span class="small">Segna come incerto anche lo zucchero bianco (白砂糖), che può essere raffinato con carbone d'ossa.</span>
+      </label>
+      <input id="strict" type="checkbox" class="switch">
+    </div>
+    <button class="btn btn-danger" id="btn-clear" style="margin-top:8px">
+      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>
+      Cancella cronologia
+    </button>
+  </div>
+  <div class="bar"><button class="btn" data-go="home"><svg aria-hidden="true" width="26" height="26"><use href="#i-cam"/></svg>Torna alla scansione</button></div>
+</section>
+
+<script>
+"use strict";
+
+/* ---------- Regole ---------- */
+// Sempre di origine animale (rosso), qualunque cosa dica il modello.
+const RED = [
+  ["明胶", "Gelatina: si ricava da ossa e pelle di animali."],
+  ["胭脂虫红", "Carminio (E120): colorante ricavato da insetti."],
+  ["胭脂虫", "Carminio (E120): colorante ricavato da insetti."],
+  ["乳糖", "Lattosio: zucchero del latte."]
+];
+// Incerti in modalità normale (giallo).
+const YELLOW = [
+  ["单双甘油脂肪酸酯", "Emulsionante E471: può derivare da grassi animali o vegetali."],
+  ["香精", "Aromi: l'origine non è indicata, possono essere animali."],
+  ["调味料", "Condimento composto: gli ingredienti interni non sono elencati."],
+  ["维生素D3", "Vitamina D3: spesso ricavata dalla lanolina (lana di pecora)."],
+  ["甘油", "Glicerina: può essere di origine animale o vegetale."],
+  ["L半胱氨酸", "L-cisteina: spesso ricavata da piume o peli."],
+  ["半胱氨酸", "L-cisteina: spesso ricavata da piume o peli."]
+];
+// Solo in modalità rigorosa.
+const STRICT = [
+  ["白砂糖", "Zucchero bianco: può essere raffinato con carbone d'ossa."],
+  ["白糖", "Zucchero bianco: può essere raffinato con carbone d'ossa."]
+];
+const norm = s => (s || "").replace(/[\s,，、·・\-－()（）]/g, "").toUpperCase().replace(/Ｄ/g, "D").replace(/Ｌ/g, "L");
+const match = (zh, list) => { const n = norm(zh); const hit = list.find(([k]) => n.includes(norm(k))); if (!hit) return null; const w = hit[1].replace(/^[^:]+:\s*/, ""); return w.charAt(0).toUpperCase() + w.slice(1); };
+
+/* ---------- Stato e archivio ---------- */
+const LS = { key: "sbs.key", strict: "sbs.strict", hist: "sbs.history" };
+const store = {
+  get key() { return localStorage.getItem(LS.key) || ""; },
+  set key(v) { v ? localStorage.setItem(LS.key, v) : localStorage.removeItem(LS.key); },
+  get strict() { return localStorage.getItem(LS.strict) === "1"; },
+  set strict(v) { localStorage.setItem(LS.strict, v ? "1" : "0"); },
+  get hist() { try { return JSON.parse(localStorage.getItem(LS.hist)) || []; } catch { return []; } },
+  set hist(v) { localStorage.setItem(LS.hist, JSON.stringify(v)); }
+};
+let lastSource = "cam", aborter = null, waitUrl = null;
+
+const $ = id => document.getElementById(id);
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+function show(name) {
+  for (const s of ["home", "wait", "err", "res", "hist"]) $("s-" + s).hidden = s !== name;
+  window.scrollTo(0, 0);
+}
+function go(where) {
+  if (where === "home") { $("nokey").hidden = !!store.key; show("home"); }
+  else { renderHistory(); show("hist"); $("hist-scroll").scrollTop = where === "settings" ? $("settings").offsetTop - 20 : 0; }
+}
+document.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => go(b.dataset.go)));
+
+/* ---------- Foto ---------- */
+function pick(src) {
+  lastSource = src;
+  if (!store.key) { go("settings"); $("apikey").focus(); return; }
+  const inp = $(src === "cam" ? "f-cam" : "f-gal"); inp.value = ""; inp.click();
+}
+$("btn-scan").onclick = () => pick("cam");
+$("btn-gallery").onclick = () => pick("gal");
+$("err-gallery").onclick = () => pick("gal");
+$("btn-new").onclick = () => pick("cam");
+$("f-cam").onchange = e => e.target.files[0] && analyze(e.target.files[0]);
+$("f-gal").onchange = e => e.target.files[0] && analyze(e.target.files[0]);
+
+function loadImage(file) {
+  return new Promise((ok, ko) => {
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => ok({ img, url });
+    img.onerror = () => { URL.revokeObjectURL(url); ko(new Error("img")); };
+    img.src = url;
+  });
+}
+function toJpeg(img, maxSide, q) {
+  const s = Math.min(1, maxSide / Math.max(img.naturalWidth, img.naturalHeight));
+  const c = document.createElement("canvas");
+  c.width = Math.round(img.naturalWidth * s); c.height = Math.round(img.naturalHeight * s);
+  c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+  return c.toDataURL("image/jpeg", q);
+}
+
+/* ---------- Claude ---------- */
+const SCHEMA = {
+  type: "object",
+  properties: {
+    found: { type: "boolean" },
+    product_name_zh: { type: "string" },
+    product_name_it: { type: "string" },
+    raw_text: { type: "string" },
+    ingredients: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          zh: { type: "string" },
+          pinyin: { type: "string" },
+          it: { type: "string" },
+          category: { type: "string", enum: ["animale", "incerto", "vegetale"] },
+          reason: { type: "string" }
+        },
+        required: ["zh", "pinyin", "it", "category", "reason"],
+        additionalProperties: false
+      }
+    }
+  },
+  required: ["found", "product_name_zh", "product_name_it", "raw_text", "ingredients"],
+  additionalProperties: false
+};
+
+function systemPrompt(strict) {
+  return `You read photos of Chinese food packaging and decide, ingredient by ingredient, whether the product is vegan. The user is an Italian speaker shopping in a supermarket; write every explanation in Italian.
+
+Find the ingredient list (it starts with 配料 or 配料表, sometimes 原料 or 成分). If the photo has no readable ingredient list, set found to false, leave ingredients empty and put whatever text you can read in raw_text.
+
+Otherwise set found to true and:
+- raw_text: the ingredient list exactly as printed, in Chinese.
+- product_name_zh / product_name_it: the product name if visible (Italian: a short common name such as "Cracker al latte"); empty strings if not visible.
+- ingredients: one entry per ingredient in label order. Split compound ingredients only when the label lists their parts in brackets, and then list the parts as separate entries. zh = the Chinese as printed; pinyin with tone marks; it = short Italian translation.
+- category:
+  - "animale": clearly of animal origin (milk and derivatives 乳粉/奶粉/乳清/黄油/奶油/酪蛋白, eggs 鸡蛋/蛋黄/蛋清, honey 蜂蜜, meat, fish, seafood, animal fats 猪油/牛油, oyster sauce 蚝油, fish sauce 鱼露, shellac 虫胶, beeswax). Gelatin 明胶, carmine 胭脂虫红 and lactose 乳糖 are ALWAYS "animale".
+  - "incerto": origin not stated and possibly animal. Always "incerto": emulsifier E471 单,双甘油脂肪酸酯, flavourings 食用香精/香精, compound seasoning 调味料/复合调味料, vitamin D3 维生素D3, glycerin 甘油, L-cysteine L-半胱氨酸.${strict ? " Strict mode is ON: white sugar 白砂糖/白糖 is also \"incerto\" (may be refined with bone char)." : " Strict mode is OFF: white sugar 白砂糖 counts as \"vegetale\"."}
+  - "vegetale": plant, mineral, water, salt, or synthetic with no animal link.
+- reason: for "animale" and "incerto", one short Italian sentence saying why (max ~12 words). For "vegetale", an empty string.
+Do not guess ingredients you cannot read; if a character is unreadable, skip that ingredient rather than invent it.`;
+}
+
+async function callClaude(dataUrl, strict, signal) {
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    signal,
+    headers: {
+      "content-type": "application/json",
+      "x-api-key": store.key,
+      "anthropic-version": "2026-10-21",
+      "anthropic-beta": "server-side-fallback-2026-07-01",
+      "anthropic-dangerous-direct-browser-access": "true"
+    },
+    body: JSON.stringify({
+      model: "claude-opus-5-5",
+      max_tokens: 16000,
+      fallbacks: "default",
+      output_config: { effort: "medium", format: { type: "json_schema", schema: SCHEMA } },
+      system: systemPrompt(strict),
+      messages: [{
+        role: "user",
+        content: [
+          { type: "image", source: { type: "base64", media_type: "image/jpeg", data: dataUrl.split(",")[1] } },
+          { type: "text", text: "Leggi la lista ingredienti di questa etichetta." }
+        ]
+      }]
+    })
+  });
+  if (!res.ok) {
+    let msg = ""; try { msg = (await res.json()).error?.message || ""; } catch {}
+    const e = new Error(msg); e.status = res.status; throw e;
+  }
+  const data = await res.json();
+  if (data.stop_reason === "refusal") { const e = new Error("refusal"); e.kind = "refusal"; throw e; }
+  if (data.stop_reason === "max_tokens") { const e = new Error("max_tokens"); e.kind = "parse"; throw e; }
+  const text = (data.content || []).filter(b => b.type === "text").map(b => b.text).join("");
+  try { return JSON.parse(text); } catch { const e = new Error("parse"); e.kind = "parse"; throw e; }
+}
+
+/* ---------- Verdetto ---------- */
+function classify(out, strict) {
+  const items = (out.ingredients || []).map(i => {
+    let t = i.category === "animale" ? "r" : i.category === "incerto" ? "y" : "g";
+    let why = i.reason || "";
+    const red = match(i.zh, RED), yel = match(i.zh, YELLOW), sug = match(i.zh, STRICT);
+    if (red) { t = "r"; why = why && i.category === "animale" ? why : red; }
+    else if (t !== "r" && yel) { if (t === "g" || !why) why = yel; t = "y"; }
+    else if (sug) {
+      if (strict && t === "g") { t = "y"; why = "Modalità rigorosa: " + sug.charAt(0).toLowerCase() + sug.slice(1); }
+      if (!strict && t === "y") { t = "g"; why = ""; }
+    }
+    return { zh: i.zh, py: i.pinyin, it: i.it, t, why: t === "g" ? "" : why };
+  });
+  const order = { r: 0, y: 1, g: 2 };
+  items.sort((a, b) => order[a.t] - order[b.t]);
+  const reds = items.filter(i => i.t === "r"), yels = items.filter(i => i.t === "y");
+  const verdict = reds.length ? "r" : yels.length ? "y" : "g";
+  return {
+    verdict, items, strict,
+    nameZh: out.product_name_zh || "", nameIt: out.product_name_it || "",
+    raw: out.raw_text || ""
+  };
+}
+
+/* ---------- Flusso ---------- */
+async function analyze(file) {
+  let loaded;
+  try { loaded = await loadImage(file); }
+  catch { return showError("Non riesco ad aprire la foto", "Il formato dell'immagine non è supportato. Prova a scattarla di nuovo.", false); }
+  if (waitUrl) URL.revokeObjectURL(waitUrl);
+  waitUrl = loaded.url;
+  $("wait-img").src = loaded.url;
+  show("wait");
+  const full = toJpeg(loaded.img, 1600, 0.85);
+  const thumb = toJpeg(loaded.img, 120, 0.7);
+  aborter = new AbortController();
+  try {
+    const strict = store.strict;
+    const out = await callClaude(full, strict, aborter.signal);
+    if (!out.found || !(out.ingredients || []).length) {
+      return showError("Non trovo la lista ingredienti", "Nella foto non c'è un testo che sembri una lista di ingredienti, oppure è troppo sfocato.", true);
+    }
+    const r = classify(out, strict);
+    r.id = Date.now(); r.date = r.id; r.thumb = thumb;
+    saveHistory(r);
+    renderResult(r);
+  } catch (e) {
+    if (e.name === "AbortError") return go("home");
+    if (e.status === 401 || e.status === 403) return showError("Chiave API non valida", "Controlla la chiave nelle impostazioni e riprova.", false, "settings");
+    if (e.status === 429) return showError("Troppe richieste", "Il servizio è occupato o il credito è esaurito. Riprova tra poco.", false);
+    if (e.status === 413) return showError("Foto troppo grande", "Prova a scattarla di nuovo.", false);
+    if (e.status) return showError("Il servizio non risponde", "Errore " + e.status + (e.message ? ": " + e.message : "") + ". Riprova tra poco.", false);
+    if (e.kind === "refusal") return showError("Non posso analizzare questa foto", "Il servizio ha rifiutato la richiesta. Prova con un'altra foto dell'etichetta.", true);
+    if (e.kind === "parse") return showError("Risposta incompleta", "Non sono riuscito a leggere la risposta. Riprova.", false);
+    return showError("Nessuna connessione", "Controlla la rete del telefono e riprova.", false);
+  } finally { aborter = null; }
+}
+$("btn-cancel").onclick = () => { if (aborter) aborter.abort(); else go("home"); };
+
+function showError(title, msg, tips, action) {
+  $("err-title").textContent = title;
+  $("err-msg").textContent = msg;
+  $("err-tips").hidden = !tips;
+  $("err-retry-l").textContent = action === "settings" ? "Apri impostazioni" : "Riprova";
+  $("err-retry").onclick = action === "settings" ? () => go("settings") : () => pick(lastSource);
+  show("err");
+}
+
+/* ---------- Risultato ---------- */
+const GLYPH = { r: "×", y: "?", g: "✓" };
+const LABEL = { r: "animale", y: "incerto" };
+const ICONS = {
+  r: '<circle cx="12" cy="12" r="9.5"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7"/>',
+  y: '<path d="M12 3.5l9.5 16.5h-19z"/><path d="M12 10v4.5M12 17.5v.01"/>',
+  g: '<circle cx="12" cy="12" r="9.5"/><path d="M7.5 12.5l3 3 6-6.5"/>'
+};
+function zhSpan(t) { const s = el("span", "zh", t); s.lang = "zh-Hans"; s.style.fontWeight = "700"; return s; }
+
+function renderResult(r) {
+  const band = $("res-band"); band.className = "band " + r.verdict; band.textContent = "";
+  band.insertAdjacentHTML("afterbegin", `<svg aria-hidden="true" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${ICONS[r.verdict]}</svg>`);
+  const box = el("div");
+  const reds = r.items.filter(i => i.t === "r"), yels = r.items.filter(i => i.t === "y");
+  if (r.verdict === "r") {
+    box.append(el("p", "v", "Non vegano"));
+    const d = el("p", "d"); d.append("Contiene ", zhSpan(reds[0].zh), " – " + reds[0].it.toLowerCase()); box.append(d);
+    if (reds.length > 1) {
+      const d2 = el("p", "d2"); d2.append("e anche ");
+      reds.slice(1, 3).forEach((x, k) => { if (k) d2.append(", "); d2.append(zhSpan(x.zh), " – " + x.it.toLowerCase()); });
+      if (reds.length > 3) d2.append(" e altri " + (reds.length - 3));
+      box.append(d2);
+    }
+  } else if (r.verdict === "y") {
+    box.append(el("p", "v", "Incerto"));
+    const d = el("p", "d"); d.append(zhSpan(yels[0].zh), " – " + yels[0].why); box.append(d);
+    box.append(el("p", "d2", yels.length > 1 ? `Altri ${yels.length - 1} ingredienti da controllare. Nessuno sicuramente animale.` : "Nessun ingrediente sicuramente animale."));
+  } else {
+    box.append(el("p", "v", "Nessun ingrediente animale rilevato"));
+    box.append(el("p", "d2", (r.strict ? "Controllato in modalità rigorosa. " : "") + "Le tracce da contaminazione non sono valutate."));
+  }
+  band.append(box);
+
+  const prod = $("res-prod"); prod.textContent = "";
+  if (r.nameIt) prod.append(r.nameIt + " ");
+  if (r.nameZh) { const z = el("span", "zh", r.nameZh); z.lang = "zh-Hans"; prod.append(z); }
+  prod.append((r.nameIt || r.nameZh ? " · " : "") + r.items.length + " ingredienti letti");
+
+  const flag = $("res-flag"), ok = $("res-ok"); flag.textContent = ""; ok.textContent = "";
+  for (const i of r.items) {
+    const li = el("li", i.t);
+    const dot = el("span", "dot " + i.t, GLYPH[i.t]); dot.setAttribute("aria-hidden", "true");
+    const ing = el("div", "ing"), top = el("div", "top");
+    const han = el("span", "han", i.zh); han.lang = "zh-Hans";
+    top.append(han, el("span", "py", i.py)); ing.append(top);
+    const it = el("span", "it", i.it);
+    if (i.t !== "g") { const lab = el("span", null, " · " + LABEL[i.t]); lab.style.cssText = "font-weight:600;font-size:15px"; it.append(lab); }
+    ing.append(it);
+    if (i.why) ing.append(el("span", "why", i.why));
+    li.append(dot, ing);
+    (i.t === "g" ? ok : flag).append(li);
+  }
+  const hasFlag = flag.children.length > 0;
+  $("h-flag").hidden = !hasFlag; flag.hidden = !hasFlag;
+  $("h-ok").hidden = !ok.children.length; ok.hidden = !ok.children.length;
+  $("h-ok").textContent = hasFlag ? "Altri ingredienti" : "Ingredienti";
+  $("res-raw").textContent = r.raw || "—";
+  document.querySelector("#s-res details").open = false;
+  show("res");
+  $("res-scroll").scrollTop = 0;
+}
+
+/* ---------- Cronologia ---------- */
+function saveHistory(r) {
+  let h = store.hist; h.unshift(r); h = h.slice(0, 40);
+  for (;;) { try { store.hist = h; break; } catch { if (h.length <= 1) break; h = h.slice(0, Math.ceil(h.length * 0.75)); } }
+}
+function fmtDate(ts) {
+  const d = new Date(ts), now = new Date();
+  const hm = d.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" });
+  const day = x => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
+  const diff = (day(now) - day(d)) / 864e5;
+  if (diff === 0) return "Oggi, " + hm;
+  if (diff === 1) return "Ieri, " + hm;
+  return d.toLocaleDateString("it-IT", { day: "numeric", month: "short", year: d.getFullYear() === now.getFullYear() ? undefined : "numeric" });
+}
+function verdictText(r) {
+  const f = r.items.find(i => i.t === r.verdict);
+  if (r.verdict === "r") return "Non vegano · " + f.zh + " " + f.it.toLowerCase();
+  if (r.verdict === "y") return "Incerto · " + f.it.toLowerCase();
+  return "Nessun ingrediente animale";
+}
+function renderHistory() {
+  const h = store.hist, ul = $("hist-list"); ul.textContent = "";
+  $("hist-empty").hidden = h.length > 0; ul.hidden = !h.length; $("btn-clear").hidden = !h.length;
+  for (const r of h) {
+    const li = el("li"), b = el("button");
+    b.type = "button";
+    const img = el("img", "thumb"); img.alt = ""; img.src = r.thumb || "";
+    const meta = el("div", "hmeta");
+    const name = el("span", "hname", r.nameIt || "Prodotto senza nome");
+    if (r.nameZh) { const z = el("span", "zh", " " + r.nameZh); z.style.cssText = "font-weight:500;color:#3D3D3D"; name.append(z); }
+    const v = el("span", "hverd");
+    const dot = el("span", "dot " + r.verdict, GLYPH[r.verdict]); dot.setAttribute("aria-hidden", "true");
+    v.append(dot, verdictText(r));
+    meta.append(name, v, el("span", "hdate", fmtDate(r.date)));
+    b.append(img, meta);
+    b.insertAdjacentHTML("beforeend", '<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4A4A4A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>');
+    b.onclick = () => renderResult(r);
+    li.append(b); ul.append(li);
+  }
+}
+$("btn-clear").onclick = () => { if (confirm("Cancellare tutta la cronologia?")) { store.hist = []; renderHistory(); } };
+
+/* ---------- Impostazioni ---------- */
+$("apikey").value = store.key;
+$("apikey").addEventListener("input", e => { store.key = e.target.value.trim(); });
+$("btn-show").onclick = () => {
+  const i = $("apikey"), vis = i.type === "password";
+  i.type = vis ? "text" : "password"; $("btn-show").textContent = vis ? "Nascondi" : "Mostra";
+};
+$("strict").checked = store.strict;
+$("strict").onchange = e => { store.strict = e.target.checked; };
+
+go("home");
+</script>
+</body>
+</html>
