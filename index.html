@@ -513,7 +513,9 @@ async function analyze(file) {
     renderResult(r);
   } catch (e) {
     if (e.name === "AbortError") return go("home");
-    if (e.status === 401 || e.status === 403) return showError("Chiave API non valida", "Controlla la chiave nelle impostazioni e riprova.", false, "settings");
+    const why = e.message ? " Motivo (errore " + e.status + "): " + e.message : " (errore " + e.status + ")";
+    if (e.status === 401) return showError("Chiave API non valida", "Anthropic non riconosce la chiave." + why, false, "settings");
+    if (e.status === 403) return showError("Accesso negato", "La chiave è valida ma non ha il permesso per questa richiesta." + why, false, "settings");
     if (e.status === 429) return showError("Troppe richieste", "Il servizio è occupato o il credito è esaurito. Riprova tra poco.", false);
     if (e.status === 413) return showError("Foto troppo grande", "Prova a scattarla di nuovo.", false);
     if (e.status) return showError("Il servizio non risponde", "Errore " + e.status + (e.message ? ": " + e.message : "") + ". Riprova tra poco.", false);
@@ -645,7 +647,7 @@ $("btn-clear").onclick = () => { if (confirm("Cancellare tutte le scansioni?")) 
 
 /* ---------- Impostazioni ---------- */
 $("apikey").value = store.key;
-$("apikey").addEventListener("input", e => { store.key = e.target.value.trim(); });
+$("apikey").addEventListener("input", e => { store.key = e.target.value.replace(/[^\x21-\x7E]/g, ""); });
 $("btn-show").onclick = () => {
   const i = $("apikey"), vis = i.type === "password";
   i.type = vis ? "text" : "password";
